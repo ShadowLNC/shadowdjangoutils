@@ -57,3 +57,14 @@ license (currently GNU LGPL - see the LICENSE.md file for details).
                     self.addErr((
                         "URL handle \"{0.url}\" is not unique (in current "+
                         "games)").format(self), field="url")
+
+#### Alternate ChoicesEnum
+
+    from shadowdjangoutils import ChoicesEnum
+
+    MatchLevels = ChoicesEnum.from_list(
+        #ONLY ADD TO BOTTOM OF LIST + DO NOT DELETE ITEMS
+        #ELSE ENUM VALUES WILL BE SHIFTED, DB CORRUPTED
+        'Playoff',
+        'Qualification',
+    )
