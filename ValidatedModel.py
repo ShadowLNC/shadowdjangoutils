@@ -11,7 +11,7 @@ class ValidatedModel(models.Model):
         self.clean()
 
         # After cleaning, either raise the errors or else continue with save.
-        if self.errs != {}: raise ValidationError(errs)
+        if self.errs != {}: raise ValidationError(self.errs)
         super(ValidatedModel, self).save(*args, **kwargs)
 
     def addErr(self, text, field=NON_FIELD_ERRORS, code=None, params=None):
@@ -22,7 +22,7 @@ class ValidatedModel(models.Model):
         # This isn't about raising individual ValidationErrors; you can do that
         # elsewhere if you want; it's a single line of code.
         error = ValidationError(_(text), code=code, params=params)
-        errs.setdefault(field, []).append(error)
+        self.errs.setdefault(field, []).append(error)
 
     class Meta:
         abstract = True
