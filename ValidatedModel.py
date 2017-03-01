@@ -8,7 +8,7 @@ class ValidatedModel(models.Model):
         # Try to clean and check errors.
         # In case errs already exists, do not overwrite. See addErr().
         if not hasattr(self, 'errs'): self.errs = {}
-        self.clean()
+        self.full_clean()
 
         # After cleaning, either raise the errors or else continue with save.
         if self.errs != {}: raise ValidationError(self.errs)
