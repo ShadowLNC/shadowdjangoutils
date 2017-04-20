@@ -9,13 +9,11 @@ class ValidatedModel(models.Model):
         super().__init__(*args, **kwargs)
         self.errs = {}  # For addErr() calls without calling save().
 
-    def save(self, extra_errs=None, *args, **kwargs):
+    def save(self, extra_errs={}, *args, **kwargs):
         # Try to clean, then check errors. We aallow pre-existing errors to be
         # raised. Specify extra_errs=<self_object>.errs in order to carry over
         # previous errors when saving, instead of clearing the slate (default).
-        if extra_errs is None:
-            extra_errs = {}
-        self.errs = extra_errs
+        self.errs = dict(extra_errs)  # Copy as to not modify by reference.
         self.full_clean()
 
         # After cleaning, either raise the errors or else continue with save.
